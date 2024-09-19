@@ -1,0 +1,11 @@
+add_executable(kitti_helper_test kitti_helper_test.cc)
+target_link_libraries(kitti_helper_test a_loam_mt)
+ament_target_dependencies(kitti_helper_test rclcpp)
+
+add_executable(feature_extractor_test feature_extractor_test.cc)
+target_link_libraries(feature_extractor_test a_loam_mt)
+ament_target_dependencies(feature_extractor_test rclcpp)
+
+add_executable(lidar_odom_test lidar_odom_test.cc)
+target_link_libraries(lidar_odom_test a_loam_mt)
+ament_target_dependencies(lidar_odom_test rclcpp)

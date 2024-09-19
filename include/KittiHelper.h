@@ -1,11 +1,14 @@
+#pragma once
+
 #include <string>
 
-#include "Common.h"
+#include "Common.hpp"
+#include "DataHelper.h"
 
 NAMESPACE_BEGIN
 
 /// @brief kitti数据读取器
-class KittiHelper {
+class KittiHelper : public DataHelper {
 public:
     typedef std::shared_ptr<KittiHelper> Ptr;
 
@@ -16,17 +19,8 @@ public:
         SE3 Tlc;                ///< 相机在雷达系下的位姿
     };
 
-    /// kitti读取的数据包
-    struct DataBag {
-        double stamp_;                     ///< 时间戳
-        PointCloudXYZTL::Ptr *pointcloud_; ///< 点云数据，分线束存储
-        cv::Mat right_image_;              ///< 右侧图像
-        SE3 ref_pose_;                     ///< 里程计参考位姿
-        bool valid_;                       ///< 数据是否有效
-    };
-
     /// 读取下一帧数据
-    DataBag LoadNext();
+    DataBag LoadNext() override;
 
     KittiHelper(Options options)
         : options_(std::move(options))
@@ -39,7 +33,7 @@ public:
     }
 
 private:
-    PointCloudXYZTL::Ptr *LoadPointCloud();      ///< 加载点云数据
+    DataBag::PointClouds LoadPointCloud();       ///< 加载点云数据
     cv::Mat LoadImage();                         ///< 加载图像数据
     SE3 LoadGTruth(const std::string &pose_str); ///< 加载ground truth
 
